@@ -1,0 +1,72 @@
+<head>
+  <script type="text/javascript" src="/static/canvasjs.min.js"></script>
+
+<script type="text/javascript">
+window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+	zoomEnabled: true,      
+      title:{
+        text: {{.Title}} + " Quotations Chart"
+    },
+    axisX:{
+        title: "timeline",
+        valueFormatString: "MM/YYYY",
+				gridColor: "Silver",
+				tickColor: "silver"
+    },
+    theme: "theme2",
+    axisY: {
+    	gridColor: "Silver",
+		tickColor: "silver",
+        title: "Quotes",
+        includeZero: false
+    },
+	legend:{
+		verticalAlign: "center",
+		horizontalAlign: "right"
+	},
+    data: [
+    {        
+        type: "line",
+        dataPoints: [//array
+        	 {{range .ContratQuotes}}
+{ x: new Date( {{ .Day}} ), y: {{ .Data}} },
+            {{end}}
+
+        ]
+    }
+    ]
+});
+    chart.render();
+}
+</script>
+
+  </head>
+<h1>{{.Title}}</h1>
+
+{{/* <p>[<a href="/edit/{{.Title}}">edit</a>]</p> */}}
+
+{{/* <p>{{printf "%s" .Body}}</p> */}}
+
+<div id="chartContainer" style="height: 500px; width: 75%;"></div>
+
+<div>
+<table style="width:100%">
+	<tr>
+		<td>Date</td>
+		<td>Quotation</td>
+	</tr>
+	{{range .ContratQuotes}}
+		<tr>
+			<td>  {{ .Day}}  </td>
+			<td>  {{ .Data}} </td>
+		</tr>
+        {{end}}	
+</table>
+</div>
+
+</br>      
+
+<div><hr>{{printf "%v" .FooterData}}</br>
+(c) and email: fw2318[dot]0[at]gmail[dot]com</div>

@@ -1,0 +1,81 @@
+<head>
+  <script type="text/javascript" src="/static/canvasjs.min.js"></script>
+  <script type="text/javascript">
+window.onload = function () {
+{{ $globo := .}}
+    var chart = new CanvasJS.Chart("chartContainer",
+    {
+	zoomEnabled: true,      
+      title:{
+        text: {{.Title}} + " Quotations Chart"
+    },
+    axisX:{
+        title: "timeline",
+        valueFormatString: "MM/YYYY",
+				gridColor: "Silver",
+				tickColor: "silver"
+    },
+    theme: "theme2",
+    axisY: {
+    	gridColor: "Silver",
+		tickColor: "silver",
+        title: "Quotes",
+        includeZero: false
+    },
+	legend:{
+		verticalAlign: "center",
+		horizontalAlign: "right"
+	},
+    data: [
+    {{range $icol, $ecol := .ContratQuotes}}
+		{        
+			type: "line",
+			showInLegend: true,
+			name: "{{index $globo.CurvesTitles $icol}}",
+			dataPoints: [
+{{range $i, $element := $ecol}} {{if ne $element.Symbol "" }} 
+	{ x: new Date( {{$element.Day}} ), y: {{$element.Data}} },
+{{end}} {{end}}
+			]
+		},
+	{{end}}
+    ]
+});
+    chart.render();
+}
+</script>
+{{index .CurvesTitles 0}}
+  </head>
+<h1>{{.Title}}</h1>
+
+{{/* <p>[<a href="/edit/{{.Title}}">edit</a>]</p> */}}
+
+{{/* <p>{{printf "%s" .Body}}</p> */}}
+
+<div id="chartContainer" style="height: 500px; width: 75%;"></div>
+
+<div>
+ {{range $icol, $ecol := .ContratQuotes}}
+<table style="width:100%">
+	<tr>
+		<td><b>{{index $globo.CurvesTitles $icol}}</b></td>
+		<td><b>ProductID</b></td>
+		<td><b>Quotation</b></td>
+	</tr>
+	{{range $i, $element := $ecol}}
+		{{if ne $element.Symbol "" }}
+			<tr> 
+				<td>  {{$element.Day}}		</td>
+				<td>  {{$element.Symbol}}	</td>
+				<td>  {{$element.Data}}		</td>
+			</tr>
+		{{end}}
+    {{end}}	
+</table>
+{{end}}
+</div>
+
+</br>      
+
+<div><hr>{{printf "%v" .FooterData}}</br>
+(c) and email: fw2318[dot]0[at]gmail[dot]com</div>

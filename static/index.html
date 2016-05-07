@@ -1,0 +1,65 @@
+<html>
+<head>
+		<!-- script type="text/javascript" charset="utf-8" src="jstat.min.js"></script> -->
+	<meta charset='UTF-8'>	
+	<title>Palmares</title>	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<div data-role = "header" id = "pageHeader" data-nobackbtn = "true" data-position = "fixed">	
+		<h1>Palmares</h1>
+	</div>
+	
+	<link rel="stylesheet" href="style.css">
+	<!-- date picker & jquery -->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" /> 
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.5.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js" type="text/javascript"></script>
+	<script>
+	$.datepicker.setDefaults({ dateFormat: 'yy-mm-dd'  });
+	</script>
+	<!-- Load main script -->
+	<script src="index.js"></script>
+</head>
+<body>
+	
+	<div data-role = "page" data-theme = "a" id = "pageContainer">
+		<p id="parameters">
+			Ref unit= 
+			<select autofocus name="ref_currency" id="ref_currency" >
+				<option value="EUR">EUR</option>
+				<option value="USD">USD</option>
+				<option value="GOLD">GOLD</option>
+			</select></br>
+			Ref date=<input type="text" id="today_date"><script>
+				$(function() {
+				$( "#today_date" ).datepicker();
+				});
+				var today = new Date();
+				today.setDate(today.getDate() - 1);
+				document.getElementById("today_date").value = today.toISOString().slice(0,10);
+			</script> 
+			<div id="date_comment"></div>
+			Time period= 
+			<select autofocus name="time_period" id="time_period" >
+				<option value="1M">1 Month</option>
+				<option value="3M">3Months</option>
+				<option value="1Y">1 Year</option>
+				<option value="YTD">Yearly</option>			
+			</select><p id="end_date"> ()</p></br>
+			<button type="button" onclick="MainIn()">GO</button>
+		</p>
+			
+		<p  >
+		<table data-role = "content" id="mainContent" border="1">
+        <tr>
+            <td>Rank</td>
+            <td>Name</td>
+            <td>Return</td>
+            <td>old</td>
+			<td>recent</td>
+        </tr>
+		</p>	
+	</div>
+	<!-- <script type="text/javascript"> window.onload = MainIn(); </script> 
+	-->	
+</body>
+</html>
